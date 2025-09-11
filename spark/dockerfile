@@ -1,0 +1,20 @@
+FROM python:3.9-slim-bullseye
+
+# Install Java
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends \
+    default-jre \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set JAVA_HOME  
+ENV JAVA_HOME=/usr/lib/jvm/default-java
+
+# Set  directory
+WORKDIR /app
+
+COPY ./* /app/
+
+RUN pip3 install -r requirements.txt
+
+CMD ["python", "data_processing.py"]
